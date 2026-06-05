@@ -1,0 +1,17 @@
+{
+  "name": "specdriven-skills",
+  "description": "Spec-driven development skill suite for Claude Code",
+  "version": "0.1.0-beta",
+  "author": {
+    "name": "Alessio Caprari"
+  },
+  "homepage": "https://github.com/acaprari/specdriven-skills",
+  "repository": "https://github.com/acaprari/specdriven-skills",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "spec",
+    "spec-driven-development",
+    "documentation"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "specdriven-skills",
+  "description": "Spec-driven development skill suite for Claude Code",
+  "owner": {
+    "name": "Alessio Caprari"
+  },
+  "plugins": [
+    {
+      "name": "specdriven-skills",
+      "description": "Spec-driven development skill suite for Claude Code",
+      "version": "0.1.0-beta",
+      "source": "./"
+    }
+  ]
+}
