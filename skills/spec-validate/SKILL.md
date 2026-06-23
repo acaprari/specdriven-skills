@@ -15,7 +15,7 @@ Validate audits the full `specs/` directory against the codebase and produces a 
 - **Gap** — rebuild would produce incomplete behaviour
 - **Drift** — spec and code have diverged but rebuild intent is recoverable
 
-## The Nine Categories
+## The Ten Categories
 
 Check every category, in order. Do not skip any. Report findings under the appropriate severity.
 
@@ -69,6 +69,21 @@ Files in `specs/` not listed in `specs/README.md`, or entries in `specs/README.m
 *Severity:* Drift.
 *Referral:* none — update `specs/README.md` directly.
 
+### 10. Unpromoted or fragmented cross-cutting ADR clusters
+Branch-level audit. Per-commit `spec:maintain` invocations are structurally blind to cross-cutting clusters that emerge across commits, and may also fragment one cluster into multiple per-commit ADRs. This category catches both.
+
+*How to find:*
+- Walk commits since branch-from-main (`git log main..HEAD`).
+- For each commit's capability spec edits, note: specs touched, presence of rejected alternatives, presence of directional-shift language ("from X to Y", "no longer", "moving from", "shifted to").
+- Identify candidate ADR clusters: the *aggregate* set of capability specs touched across the branch is 2+ (or a framework/principle is introduced that lives in no single capability), AND a shared directional argument or a rejected-alternative cluster spans the commits.
+- For each candidate cluster:
+  - **No ADR exists** for it → **missing ADR** finding. The cluster needs one consolidated ADR.
+  - **Multiple per-commit ADRs** each capture a fragment of one cluster → **fragmented ADR cluster** finding. Recommend consolidation into one ADR.
+  - **A stand-alone ADR** cleanly captures the cluster per the `spec:core` (a) + (b or c) heuristic → clean.
+
+*Severity:* Gap (missing ADR); Drift (fragmented cluster — consolidation recoverable).
+*Referral:* `spec:maintain` to author the consolidated ADR; `spec:capture` to assemble the cross-cutting view from session history when available.
+
 ## Report Format
 
 ```
@@ -103,13 +118,14 @@ If a category has no findings, omit it from the report. If all categories are cl
 | Broad gaps across multiple areas | `spec:infer` scoped by area |
 | Missing tests for invariants | Surface as finding — no skill referral (testing gap) |
 | Missing CLAUDE.md block | `spec:bootstrap` |
+| Missing or fragmented cross-cutting ADR cluster | `spec:maintain` (to author the consolidated ADR); `spec:capture` (if session context can supply the cross-cutting view) |
 
 ## Common Mistakes
 
 | Mistake | Correct behaviour |
 |--------|-------------------|
 | Asking clarifying questions before running | Audit mode — produce report first, questions after |
-| Stopping after finding the first issue | Check all nine categories, every time |
+| Stopping after finding the first issue | Check all ten categories, every time |
 | Reporting without skill referrals | Every finding gets a referral where one applies |
 | Silently skipping categories with no findings | Report clean categories as clean, or omit cleanly — never silently skip |
 | Mixing severity levels inconsistently | Critical = wrong rebuild; Gap = incomplete rebuild; Drift = recoverable divergence |

@@ -145,8 +145,21 @@ What else was considered and why it was ruled out.
 
 Rules for ADRs:
 - Superseded ADRs stay in place, marked `Superseded by ADR-NNN`
-- ADRs are for decisions that span capabilities — feature-scoped decisions stay in the capability spec
 - Always follow the latest non-superseded ADR
+
+**When is an ADR warranted?** An ADR is warranted when **(a) is true AND either (b) or (c)**:
+
+- **(a)** The decision touches 2+ capability specs, *or* introduces a framework/principle (e.g. an age-tier curriculum, a security-posture stance, a multi-environment policy) that doesn't naturally belong inside any single capability.
+- **(b)** At least one meaningful alternative was rejected with rationale worth preserving for future readers.
+- **(c)** The rationale is a single coherent argument that loses meaning if split across capability specs — the *why* is greater than the sum of the per-capability *whats*.
+
+Either (b) or (c) on its own, combined with (a), is sufficient. A decision can warrant an ADR for executing a coherent vision even if no meaningful alternative was rejected, and can warrant one for preserving deliberation even when the result could in principle be split per capability.
+
+**When is an ADR NOT warranted?**
+
+- A decision scoped to one capability — even with meaningful rejected alternatives — belongs in that capability's `## Decisions` section. Volume of rejected alternatives is not the criterion; cross-capability scope is.
+- A multi-spec change without a unifying argument or rejected alternatives — e.g. two coincident bugfixes in one commit, or a multi-spec drift fix — is not ADR-worthy. Update each capability's spec independently.
+- A cross-cutting cluster that is mid-branch and incomplete is not yet ADR-worthy at the per-commit cadence — defer authoring until the cluster is complete (see `spec:maintain` for the defer protocol and `spec:validate` for branch-level consolidation).
 
 ## Skill Graph
 

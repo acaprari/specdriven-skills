@@ -13,11 +13,15 @@ Capture extracts decisions from the current session and writes them into spec fi
 
 ### Step 1: Extract and group
 
-Read the session history. Group findings by capability area:
+Read the session history. **First pass — group findings by capability area:**
 
 - Explicit decisions: something the user stated or chose, with rationale present or inferable from context
 - Ambiguous items: looks like a decision, but intent is unclear — could be a preference, a temporary shortcut, or a decision that was never actually finalised
 - Implementation details that were never decided: things that emerged from code rather than from a choice (these do not belong in specs)
+
+**Second pass — cross-cutting clusters.** Scan the per-capability groups for **cross-cutting clusters**: decision sets that span 2+ capabilities with a shared rationale or rejected alternative, *or* that introduce a framework/principle not native to any single capability. Lift these into a separate **candidate-ADR group** — do not leave them split across capability groups.
+
+The rebuild-guarantee test: *would splitting these into per-capability Decisions entries lose coherence?* If yes, the cluster wants an ADR. Apply the `spec:core` (a) + (b or c) heuristic to confirm.
 
 ### Step 2: Present before writing
 
@@ -28,6 +32,9 @@ Present findings to the user **before writing anything**:
 > **[Capability area]**
 > - Decision: [what was decided] — Rationale: [why]
 > - Decision: [what was decided] — Rationale: [why]
+>
+> **Candidate ADR — cross-cutting cluster:**
+> - [Cluster title] — spans [capabilities]; unifying argument: [shared rationale]; rejected alternatives: [list, if any].
 >
 > **Flagged — intent unclear:**
 > - "[quote or paraphrase]" — Did you mean [interpretation A] or [interpretation B]?
@@ -43,7 +50,7 @@ Create or update capability spec files based on confirmed decisions only. Follow
 
 - New capability area → new `<capability>.md`
 - Existing area → edit Decisions and Invariants entries in place
-- Cross-cutting decision with meaningful rejected alternative → new ADR
+- Cross-cutting cluster meeting the `spec:core` (a) + (b or c) heuristic → new ADR (one per cluster, not one per constituent decision)
 - New capability files created → update `specs/README.md`
 - `CLAUDE.md` enforcement block missing → add it
 
