@@ -48,7 +48,14 @@ Capability specs follow a consistent format — Decisions (with rationale) and I
 
 ## Install
 
-Install as a Claude Code plugin:
+Add the marketplace, then install the plugin:
+
+```
+/plugin marketplace add acaprari/specdriven-skills
+/plugin install specdriven-skills@specdriven-skills
+```
+
+Or install directly from the repo in one step:
 
 ```
 /plugin install github:acaprari/specdriven-skills
